@@ -1,4 +1,5 @@
 var express = require('express');
+var chatCtrl = require('../controller/chat')
 var router = express.Router();
 
 var isAuthenticated = function (req, res, next) {
@@ -39,7 +40,7 @@ module.exports = function(passport){
 	}));
 
 	/* GET Home Page */
-	router.get('/home', isAuthenticated, function(req, res){
+	router.get('/home', isAuthenticated, function(req, res) {
 		res.render('home', { user: req.user });
 	});
 
