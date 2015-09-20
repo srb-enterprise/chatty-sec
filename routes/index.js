@@ -56,7 +56,6 @@ module.exports = function(passport, io){
 	});
 
 	// socket.io events
-	console.log("chatCtrl", chatCtrl);
 	chatCtrl(io);
 
 	return router;
