@@ -1,5 +1,5 @@
 var express = require('express');
-var chatCtrl = require('../controller/chat')
+var chatCtrl = require('../controller/chatCtrl')
 var router = express.Router();
 
 var isAuthenticated = function (req, res, next) {
@@ -12,7 +12,7 @@ var isAuthenticated = function (req, res, next) {
 	res.redirect('/');
 }
 
-module.exports = function(passport){
+module.exports = function(passport, io){
 
 	/* GET login page. */
 	router.get('/', function(req, res) {
@@ -49,6 +49,15 @@ module.exports = function(passport){
 		req.logout();
 		res.redirect('/');
 	});
+
+	/* GET chat window page */
+	router.get('/chat', function(req, res){
+		res.render('chatWindow', {user: req.user});
+	});
+
+	// socket.io events
+	console.log("chatCtrl", chatCtrl);
+	chatCtrl(io);
 
 	return router;
 }

@@ -11,6 +11,10 @@ var mongoose = require('mongoose');
 mongoose.connect(dbConfig.url);
 
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+// Socket.io
+app.io = io;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,7 +44,7 @@ app.use(flash());
 var initPassport = require('./controller/init');
 initPassport(passport);
 
-var routes = require('./routes/index')(passport);
+var routes = require('./routes/index')(passport, app.io);
 app.use('/', routes);
 
 /// catch 404 and forward to error handler

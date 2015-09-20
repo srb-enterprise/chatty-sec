@@ -15,7 +15,7 @@ module.exports = function(passport){
         //     console.log('deserializing user:',user);
         //
         // });
-        done(err, user);
+        done(null, user);
     });
 
     // Setting up Passport Strategies for Login and SignUp/Registration
