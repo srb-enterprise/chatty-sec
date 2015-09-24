@@ -7,32 +7,18 @@ var save = function (chat, done) {
       newChat.readByRecipient = chat.readByRecipient;
       newChat.room = chat.room;
       // save the user
-      newChat.save(function(err) {
+      newChat.save(function(err, newChat) {
           if (err){
               console.log('Error in Saving chat: '+err);
               throw err;
           }
-          console.log('User Registration succesful');
+          // console.log('save the succesful', newChat);
           return done(null, newChat);
       });
 };
 
 var unreadMessages = function (chat, done) {
-      var newChat = new Chat();
-      newChat.sender = chat.sender;
-      newChat.reciever = chat.reciever;
-      newChat.message = chat.message;
-      newChat.readByRecipient = chat.readByRecipient;
-      newChat.room = chat.room;
-      // save the user
-      newChat.save(function(err) {
-          if (err){
-              console.log('Error in Saving chat: '+err);
-              throw err;
-          }
-          console.log('User Registration succesful');
-          return done(null, newChat);
-      });
+      
 };
 
 module.exports = function(io){
@@ -52,9 +38,11 @@ module.exports = function(io){
       console.log("left room ", roomname);
     })
     socket.on('chat message', function(msg){
-      //var chat = {msg: msg, readByRecipient: false, sender: socket.id, reciever: null, room: socket.roomname}
-      //save(chat);
-       io.emit('chat message', {msg: msg, read: false, sender: socket.id});
+      var chat = {msg: msg, readByRecipient: false, sender: socket.id, reciever: null, room: socket.roomname}
+      save(chat, function (err, savedChat) {
+        chat = savedChat;
+      });
+      io.emit('chat message', chat);
     });
     socket.on('disconnect', function(){
       console.log('user disconnected');
