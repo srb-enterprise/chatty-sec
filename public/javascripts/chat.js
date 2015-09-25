@@ -1,6 +1,16 @@
 $(function () {
+  $('.inputSec').hide();
+  $('#joinRoom').on('click', function () {
+    $('.inputSec').show();
+    $('.nameSec').hide();
+  });
+
   var socket = io();
-  socket.emit("join_room", 'kishor');
+  $('#joinRoom').on('click', function () {
+      var name = $('#username').val();
+      socket.emit("join_room", {name: name});
+  });
+
   $('#send').on('click', function(){
     sendMesg ();
   });

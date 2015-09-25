@@ -4,9 +4,15 @@ block content
 	div.container
 		ul(id='messages')
 
+		div.nameSec
+			div.form-horizontal
+				input(id='username', type='text', name="username", class="form-control")
+				button(id='joinRoom', class='btn btn-primary') join
+
 		div.inputSec
-			input(id='inputMsg', type='text', name="inputMsg")
-			button(id='send') Send
+			div.form-horizontal
+				input(id='inputMsg', type='text', name="inputMsg", class="form-control")
+				button(id='send', class='btn btn-primary') Send
 	script(type='text/javascript' src='/socket.io/socket.io.js')
-	script(type='text/javascript' src='http://code.jquery.com/jquery-1.11.1.js')
+	script(type='text/javascript' src='/javascripts/jquery-1.11.1.js')
 	script(type='text/javascript' src='/javascripts/chat.js')

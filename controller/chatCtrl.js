@@ -18,7 +18,7 @@ var save = function (chat, done) {
 };
 
 var unreadMessages = function (chat, done) {
-      
+
 };
 
 module.exports = function(io){
@@ -28,17 +28,18 @@ module.exports = function(io){
   */
   io.on('connection', function(socket){
     console.log('a user connected');
-
+    var username  = "Annonymus";
     /*Giving room to new user*/
-    socket.on('join_room', function (roomname){
-      console.log("join room ", roomname);
-      socket.join(roomname);
+    socket.on('join_room', function (data){
+      console.log("join room ", data.name);
+      username=data.name;
+      socket.join(data.name);
     });
     socket.on('leave_room', function (){
       console.log("left room ", roomname);
     })
     socket.on('chat message', function(msg){
-      var chat = {msg: msg, readByRecipient: false, sender: socket.id, reciever: null, room: socket.roomname}
+      var chat = {msg: msg, readByRecipient: false, sender: username, reciever: null, room: socket.roomname}
       save(chat, function (err, savedChat) {
         chat = savedChat;
       });
