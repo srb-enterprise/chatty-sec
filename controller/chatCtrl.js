@@ -1,25 +1,26 @@
 var Chat = require('../models/chat');
+var chatService = require('../service/chatService');
 
-var save = function (chat, done) {
-      var newChat = new Chat();
-      newChat.username = chat.username;
-      newChat.message = chat.message;
-      newChat.readByRecipient = chat.readByRecipient;
-      newChat.room = chat.room;
-      // save the user
-      newChat.save(function(err, newChat) {
-          if (err){
-              console.log('Error in Saving chat: '+err);
-              throw err;
-          }
-          // console.log('save the succesful', newChat);
-          return done(null, newChat);
-      });
-};
-
-var unreadMessages = function (user, done) {
-
-};
+// var save = function (chat, done) {
+//       var newChat = new Chat();
+//       newChat.username = chat.username;
+//       newChat.message = chat.message;
+//       newChat.readByRecipient = chat.readByRecipient;
+//       newChat.room = chat.room;
+//       // save the user
+//       newChat.save(function(err, newChat) {
+//           if (err){
+//               console.log('Error in Saving chat: '+err);
+//               throw err;
+//           }
+//           // console.log('save the succesful', newChat);
+//           return done(null, newChat);
+//       });
+// };
+//
+// var unreadMessages = function (user, done) {
+//
+// };
 
 module.exports = function(io){
 
@@ -37,10 +38,11 @@ module.exports = function(io){
     });
     socket.on('leave_room', function (){
       console.log("left room ", roomname);
-    })
+    });
+
     socket.on('chat message', function(msg){
-      var chat = {msg: msg, readByRecipient: false, sender: username, reciever: null, room: socket.roomname}
-      save(chat, function (err, savedChat) {
+      var chat = {message: msg, readByRecipient: false, sender: username, reciever: null, room: socket.roomname}
+      chatService.save(chat, function (err, savedChat) {
         chat = savedChat;
       });
       io.emit('chat message', chat);
