@@ -18,7 +18,12 @@ app.io = io;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+var ECT = require('ect');
+var ectRenderer = ECT({ watch: true, root: __dirname + '/views', ext : '.ect' });
+app.set('view engine', 'ect');
+app.engine('ect', ectRenderer.render);
+
+//app.set('view engine', 'jade');
 
 app.use(favicon());
 app.use(logger('dev'));

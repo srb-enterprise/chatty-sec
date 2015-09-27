@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/stylesheets/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+			<div class="row">
+					<div class="col-md-4 col-md-offset-4">
+							<ul id="messages"> </ul>
+							<div class="panel-body">
+								<div class="form-horizontal nameSec">
+										<fieldset>
+												<div class="form-group">
+														<input class="form-control" placeholder="username" name="username" type="text" id='username'>
+												</div>
+												<div class="form-group">
+														<input type="button" class='btn btn-primary' id='joinRoom' value="Join">
+												</div>
+										</fieldset>
+								</div>
+								<div class="form-horizontal inputSec">
+										<fieldset>
+												<div class="form-group">
+														<input class="form-control" placeholder="Msg" name="inputMsg" type="text" id='inputMsg'>
+												</div>
+												<div class="form-group">
+														<input type="button" class='btn btn-primary' id='send' value="Send">
+												</div>
+										</fieldset>
+								</div>
+						</div>
+			</div>
+	</div>
+	<script src="/lib/jquery/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/javascripts/chatClient.js"></script>
+
+</body>
+</html>
