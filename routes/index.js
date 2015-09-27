@@ -44,6 +44,11 @@ module.exports = function(passport, io){
 		res.render('home', { user: req.user });
 	});
 
+	/* GET Dash Page */
+	router.get('/dash', isAuthenticated, function(req, res) {
+		res.render('dash', { user: req.user });
+	});
+
 	/* Handle Logout */
 	router.get('/signout', function(req, res) {
 		req.logout();

@@ -36,4 +36,9 @@ module.exports = function(passport){
     var isValidPassword = function(user, password){
         return bCrypt.compareSync(password, user.password);
     }
+
+		var generateLoginToken = function () {
+			return Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2);
+		}
+
 };

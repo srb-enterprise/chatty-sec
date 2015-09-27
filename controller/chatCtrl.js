@@ -17,7 +17,7 @@ var save = function (chat, done) {
       });
 };
 
-var unreadMessages = function (chat, done) {
+var unreadMessages = function (user, done) {
 
 };
 
