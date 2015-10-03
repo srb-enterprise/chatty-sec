@@ -70,7 +70,9 @@ $(function () {
       $currentInput = $inputMessage.focus();
 
       // Tell the server your username
-      socket.emit('add_user', username);
+      socket.emit('add_user', {
+        username:username
+      });
     }
   }
 

@@ -1,5 +1,5 @@
 var Chat = require('../models/chat');
-var Chat = require('../models/chatRoom');
+var ChatRoom = require('../models/chatRoom');
 
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
                 console.log('Error in Saving chat: '+err);
                 throw err;
             }
-            // console.log('save the succesful', newChat);
+            console.log('save the succesful', newChat);
             return done(null, newChat);
         });
   },

@@ -56,6 +56,10 @@ module.exports = function(io){
   // when the client emits 'new message', this listens and executes
   socket.on('new_message', function (data) {
     // we tell the client to execute 'new message'
+    var chat = {message: data, readByRecipient: false, sender: socket.username, reciever: null, room: socket.roomname}
+    chatService.save(chat, function (err, savedChat) {
+      chat = savedChat;
+    });
     socket.broadcast.emit('new_message', {
       username: socket.username,
       message: data
@@ -63,11 +67,11 @@ module.exports = function(io){
   });
 
   // when the client emits 'add user', this listens and executes
-  socket.on('add_user', function (username) {
+  socket.on('add_user', function (userdata) {
     // we store the username in the socket session for this client
-    socket.username = username;
+    socket.username = userdata.username;
     // add the client's username to the global list
-    usernames[username] = username;
+    usernames[username] = userdata.username;
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
