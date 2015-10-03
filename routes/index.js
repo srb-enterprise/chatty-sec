@@ -24,6 +24,11 @@ module.exports = function(passport, io){
 			}
 	});
 
+	/* GET Registration Page */
+	router.get('/login', function(req, res){
+		res.render('login',{message: req.flash('message')});
+	});
+
 	/* Handle Login POST */
 	router.post('/login', passport.authenticate('login', {
 		successRedirect: '/home',
