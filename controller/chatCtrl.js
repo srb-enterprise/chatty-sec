@@ -1,66 +1,69 @@
 var Chat = require('../models/chat');
 var chatService = require('../service/chatService');
 
-// var save = function (chat, done) {
-//       var newChat = new Chat();
-//       newChat.username = chat.username;
-//       newChat.message = chat.message;
-//       newChat.readByRecipient = chat.readByRecipient;
-//       newChat.room = chat.room;
-//       // save the user
-//       newChat.save(function(err, newChat) {
-//           if (err){
-//               console.log('Error in Saving chat: '+err);
-//               throw err;
-//           }
-//           // console.log('save the succesful', newChat);
-//           return done(null, newChat);
-//       });
-// };
-//
-// var unreadMessages = function (user, done) {
-//
-// };
+var save = function (chat, done) {
+      var newChat = new Chat();
+      newChat.username = chat.username;
+      newChat.message = chat.message;
+      newChat.readByRecipient = chat.readByRecipient;
+      newChat.room = chat.room;
+      // save the user
+      newChat.save(function(err, newChat) {
+          if (err){
+              console.log('Error in Saving chat: '+err);
+              throw err;
+          }
+          // console.log('save the succesful', newChat);
+          return done(null, newChat);
+      });
+};
 
+var unreadMessages = function (user, done) {
+
+};
+// usernames which are currently connected to the chat
+var usernames = {};
+var numUsers = 0;
 module.exports = function(io){
 
   /**
     A new connection is made for chat
   */
   io.on('connection', function(socket){
-    console.log('a user connected');
+
+    console.log('a user connected: ', socket.id);
     var username  = "Annonymus";
     /*Giving room to new user*/
     socket.on('join_room', function (data){
-      console.log("join room ", data.name);
+      console.log("join_room ", data.name);
       username=data.name;
       socket.join(data.name);
     });
     socket.on('leave_room', function (){
-      console.log("left room ", roomname);
+      console.log("left_room ", roomname);
     });
 
-    socket.on('chat message', function(msg){
+    socket.on('chat_message', function(msg){
       var chat = {message: msg, readByRecipient: false, sender: username, reciever: null, room: socket.roomname}
       chatService.save(chat, function (err, savedChat) {
         chat = savedChat;
       });
-      io.emit('chat message', chat);
+      io.emit('chat_message', chat);
     });
-    
+
     var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
-  socket.on('new message', function (data) {
+  socket.on('new_message', function (data) {
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
+    socket.broadcast.emit('new_message', {
       username: socket.username,
       message: data
     });
   });
 
   // when the client emits 'add user', this listens and executes
-  socket.on('add user', function (username) {
+  socket.on('add_user', function (username) {
     // we store the username in the socket session for this client
     socket.username = username;
     // add the client's username to the global list
@@ -71,7 +74,7 @@ module.exports = function(io){
       numUsers: numUsers
     });
     // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
+    socket.broadcast.emit('user_joined', {
       username: socket.username,
       numUsers: numUsers
     });
@@ -85,8 +88,8 @@ module.exports = function(io){
   });
 
   // when the client emits 'stop typing', we broadcast it to others
-  socket.on('stop typing', function () {
-    socket.broadcast.emit('stop typing', {
+  socket.on('stop_typing', function () {
+    socket.broadcast.emit('stop_typing', {
       username: socket.username
     });
   });
@@ -99,7 +102,7 @@ module.exports = function(io){
       --numUsers;
 
       // echo globally that this client has left
-      socket.broadcast.emit('user left', {
+      socket.broadcast.emit('user_left', {
         username: socket.username,
         numUsers: numUsers
       });
